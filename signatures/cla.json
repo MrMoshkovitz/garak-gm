@@ -599,6 +599,14 @@
       "created_at": "2025-10-22T00:17:25Z",
       "repoId": 639097338,
       "pullRequestNo": 1424
+    },
+    {
+      "name": "paulinek13",
+      "id": 71526180,
+      "comment_id": 3450476679,
+      "created_at": "2025-10-27T10:09:25Z",
+      "repoId": 639097338,
+      "pullRequestNo": 1438
     }
   ]
 }
