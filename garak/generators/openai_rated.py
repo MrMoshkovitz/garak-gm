@@ -224,14 +224,14 @@ class OpenAIRatedGenerator(OpenAIGenerator):
         if log_parts:
             logging.info(f"Rate limits - {' | '.join(log_parts)}")
 
-        # Check EVERY limit and pause if ANY hits 95% threshold
+        # Check EVERY limit and pause if ANY hits 99% threshold
         # This ensures we never hit a 429, regardless of which limit triggers first
         for limit_name, limit_data in all_limits.items():
             limit = limit_data['limit']
             remaining = limit_data['remaining']
             reset = limit_data['reset']
 
-            if limit > 0 and remaining <= (limit * 0.05):
+            if limit > 0 and remaining <= (limit * 0.01):
                 wait_time = self._parse_reset_time(reset)
                 label = self._get_limit_label(limit_name)
 
