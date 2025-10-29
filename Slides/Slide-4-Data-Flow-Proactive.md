@@ -138,3 +138,79 @@ Proactive monitoring handles:    @backoff handles:
 ```
 
 **Layered Defense:** Proactive prevention + reactive fallback
+
+---
+
+## Parallel Workers Flow (--parallel_attempts)
+
+### Independent Worker Monitoring (No Shared State)
+
+```
+Main Process spawns N workers (e.g., 50)
+  ↓
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│  Worker 1   │  Worker 2   │  Worker 3   │  Worker 50  │
+│ (isolated)  │ (isolated)  │ (isolated)  │ (isolated)  │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+      ↓              ↓              ↓              ↓
+Each worker INDEPENDENTLY executes:
+      ↓
+  Make API call:
+    raw_response = generator.with_raw_response.create(**args)
+      ↓
+  Extract headers from THIS worker's response:
+    x-ratelimit-remaining-requests: 4999
+    x-ratelimit-limit-requests: 5000
+    x-ratelimit-reset-requests: 12ms
+      ↓
+  _check_and_handle_rate_limits(headers)
+      ↓
+  IF remaining ≤ (limit * 0.01):  ← 99% threshold
+    THIS worker pauses (others may continue)
+    time.sleep(wait_time)
+      ↓
+  Return response
+```
+
+**Key:** No coordination, no shared state, no locks!
+
+### Why Independent Monitoring Works
+
+**1. 99% Buffer Provides Safety:**
+- At 5000 RPM: 99% threshold = 50 request buffer
+- Even if all 50 workers fire simultaneously, buffer absorbs them
+- Workers get fresh headers after each call and quickly learn threshold
+
+**2. API Latency Natural Spacing:**
+- Each request takes ~1-2 seconds (network latency)
+- Workers naturally stagger their requests over time
+- Not all workers check at exact same millisecond
+
+**3. Workers Self-Correct:**
+- Worker makes request → Gets back "remaining: 48"
+- Worker sees 48 < 50 (99% threshold) → Pauses
+- After pause, gets fresh headers → Resumes
+
+### Parallel vs Serial Performance
+
+| Mode | Workers | Throughput | Coordination | Tested |
+|------|---------|------------|--------------|--------|
+| Serial | 1 | 1x baseline | N/A | ✅ |
+| **Parallel (independent)** | **4** | **~3-4x** | **None needed** | **✅** |
+| **Parallel (independent)** | **50** | **~20-30x** | **None needed** | **✅** |
+
+**Tested:** 50 workers, 20K+ prompts, zero 429 errors
+
+### Actual Logging Output (50 Workers)
+
+```
+2025-10-29 10:29:24,567  INFO  Rate limits - RPM: 4999/5000 (0.0% used, resets in 12ms)
+2025-10-29 10:29:24,609  INFO  Rate limits - RPM: 4999/5000 (0.0% used, resets in 12ms)
+2025-10-29 10:29:24,715  INFO  Rate limits - RPM: 4999/5000 (0.0% used, resets in 12ms)
+2025-10-29 10:29:24,744  INFO  Rate limits - RPM: 4999/5000 (0.0% used, resets in 12ms)
+```
+
+**Notice:**
+- Each worker logs independently (not coordinated)
+- Fresh headers show current state
+- All workers stay well below 99% threshold

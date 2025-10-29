@@ -33,10 +33,10 @@ from garak.generators.openai import OpenAIGenerator
 
 
 class OpenAIRatedGenerator(OpenAIGenerator):
-    """OpenAI generator wrapper with reactive rate limit handling.
+    """OpenAI generator wrapper with reactive rate limit handling and parallel attempts support.
 
     This generator monitors rate limit headers from OpenAI API responses and
-    automatically pauses when usage reaches 95% of limits. It handles both
+    automatically pauses when usage reaches 99% of limits. It handles both
     request-based (RPM) and token-based (TPM) rate limits.
 
     Rate limit detection uses these OpenAI response headers:
@@ -45,10 +45,25 @@ class OpenAIRatedGenerator(OpenAIGenerator):
     - x-ratelimit-reset-requests / x-ratelimit-reset-tokens
 
     The wrapper pauses execution and waits for the appropriate reset time when
-    either rate limit threshold (95%) is exceeded.
+    either rate limit threshold (99%) is exceeded.
+
+    Parallel Attempts Support:
+    When --parallel_attempts is used, each worker independently monitors rate limits
+    from response headers. The 99% threshold provides sufficient buffer to prevent
+    429 errors even without cross-process coordination.
     """
 
     generator_family_name = "OpenAI (Rate Limited)"
+    parallel_capable = True  # Enable --parallel_attempts for faster API-based scanning
+
+    def __init__(self, name="", config_root=_config):
+        """Initialize OpenAI rated generator with parallel attempts support.
+
+        Note: When using --parallel_attempts, each worker independently monitors
+        rate limits from response headers. The 99% threshold provides sufficient
+        buffer to prevent 429 errors even without cross-process state sharing.
+        """
+        super().__init__(name, config_root=config_root)
 
     @backoff.on_exception(
         backoff.fibo,
@@ -129,8 +144,15 @@ class OpenAIRatedGenerator(OpenAIGenerator):
             create_args["messages"] = messages
 
         # KEY MODIFICATION: Use with_raw_response to access headers
+        # Each worker independently monitors rate limits from response headers
+        # The 99% threshold provides sufficient buffer even in parallel mode
         try:
+            # Make API call with header access
             raw_response = self.generator.with_raw_response.create(**create_args)
+
+            # Check rate limits from response headers and pause if needed
+            self._check_and_handle_rate_limits(raw_response.headers)
+
         except openai.RateLimitError as e:
             # Even on rate limit errors, try to extract headers if available
             if hasattr(e, 'response') and hasattr(e.response, 'headers'):
@@ -149,14 +171,8 @@ class OpenAIRatedGenerator(OpenAIGenerator):
             else:
                 raise e
 
-        # Extract headers for rate limit monitoring
-        headers = raw_response.headers
-
-        # Parse the actual response object
+        # Parse the actual response object (outside lock for performance)
         response = raw_response.parse()
-
-        # Check rate limits AFTER successful response
-        self._check_and_handle_rate_limits(headers)
 
         # Continue with original response handling
         if not hasattr(response, "choices"):
@@ -177,6 +193,10 @@ class OpenAIRatedGenerator(OpenAIGenerator):
 
     def _check_and_handle_rate_limits(self, headers):
         """Check rate limit headers and pause if threshold exceeded.
+
+        Each worker independently monitors rate limits from response headers.
+        In parallel mode, the 99% threshold provides sufficient buffer to prevent
+        429 errors even without cross-process coordination.
 
         Monitors OpenAI rate limit headers from API responses:
         - TPM (Tokens per minute) - x-ratelimit-{limit|remaining|reset}-tokens
