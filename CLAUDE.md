@@ -1,3 +1,5 @@
+NEVER WRITE CLAUDE IN THE COMMIT MESSAGES - ALWAYS WRITE the User as the Author
+
 CRITICAL Files:
 1. Base Generator: /Users/gmoshkov/Professional/Code/GarakGM/GarakRatesDemo/WorkTrees/openai-rate-limit-headers-V1/garak/generators/base.py
 2. Original Generator: /Users/gmoshkov/Professional/Code/GarakGM/GarakRatesDemo/WorkTrees/openai-rate-limit-headers-V1/garak/generators/openai.py
