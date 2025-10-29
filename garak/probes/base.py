@@ -72,6 +72,29 @@ class Probe(Configurable):
         """
         self._load_config(config_root)
         self.probename = str(self.__class__).split("'")[1]
+
+        # Handle deprecated recommended_detector migration
+        if (
+            self.primary_detector is None
+            and self.recommended_detector != ["always.Fail"]
+            and len(self.recommended_detector) > 0
+        ):
+            from garak import command
+
+            command.deprecation_notice(
+                f"recommended_detector in probe {self.probename}",
+                "0.9.0.6",
+                logging=logging,
+            )
+            self.primary_detector = self.recommended_detector[0]
+            if len(self.recommended_detector) > 1:
+                existing_extended = (
+                    list(self.extended_detectors) if self.extended_detectors else []
+                )
+                self.extended_detectors = existing_extended + list(
+                    self.recommended_detector[1:]
+                )
+
         if hasattr(_config.system, "verbose") and _config.system.verbose > 0:
             print(
                 f"loading {Style.BRIGHT}{Fore.LIGHTYELLOW_EX}probe: {Style.RESET_ALL}{self.probename}"
@@ -184,22 +207,20 @@ class Probe(Configurable):
     ) -> garak.attempt.Attempt:
         """function for creating a new attempt given a prompt"""
         turns = []
+        if hasattr(self, "system_prompt") and self.system_prompt:
+            turns.append(
+                garak.attempt.Turn(
+                    role="system",
+                    content=garak.attempt.Message(text=self.system_prompt, lang=lang),
+                )
+            )
         if isinstance(prompt, garak.attempt.Conversation):
             try:
                 # only add system prompt if the prompt does not contain one
                 prompt.last_message("system")
                 turns = prompt.turns
             except ValueError as e:
-                turns.append(prompt.turns)
-        elif hasattr(self, "system_prompt") and self.system_prompt:
-            turns.append(
-                garak.attempt.Turn(
-                    role="system",
-                    content=garak.attempt.Message(
-                        text=self.system_prompt, lang=lang
-                    ),
-                )
-            )
+                turns.extend(prompt.turns)
         if isinstance(prompt, str):
             turns.append(
                 garak.attempt.Turn(
@@ -216,7 +237,11 @@ class Probe(Configurable):
         if len(turns) > 0:
             prompt = garak.attempt.Conversation(
                 turns=turns,
-                notes=notes,
+                notes=(
+                    prompt.notes
+                    if isinstance(prompt, garak.attempt.Conversation)
+                    else None
+                ),  # keep and existing notes
             )
 
         new_attempt = garak.attempt.Attempt(
@@ -239,7 +264,7 @@ class Probe(Configurable):
     def _postprocess_attempt(self, this_attempt) -> garak.attempt.Attempt:
         # Messages from the generator have no language set, propagate the target language to all outputs
         # TODO: determine if this should come from `self.langprovider.target_lang` instead of the result object
-        all_outputs = this_attempt.all_outputs
+        all_outputs = this_attempt.outputs
         for output in all_outputs:
             if output is not None:
                 output.lang = this_attempt.lang
@@ -342,11 +367,9 @@ class Probe(Configurable):
 
         # build list of attempts
         attempts_todo: Iterable[garak.attempt.Attempt] = []
-        prompts = list(
+        prompts = copy.deepcopy(
             self.prompts
-        )  # will this still make a copy if prompts are `Message` objects?
-        lang = self.lang
-        # account for visual jailbreak until Turn/Conversation is supported
+        )  # make a copy to avoid mutating source list
         preparation_bar = tqdm.tqdm(
             total=len(prompts),
             leave=False,
@@ -367,35 +390,47 @@ class Probe(Configurable):
             for prompt in prompts:
                 if isinstance(prompt, garak.attempt.Message):
                     prompt.text = self.langprovider.get_text(
-                        prompt.text, notify_callback=preparation_bar.update
-                    )
+                        [prompt.text], notify_callback=preparation_bar.update
+                    )[0]
                     prompt.lang = self.langprovider.target_lang
                 if isinstance(prompt, garak.attempt.Conversation):
                     for turn in prompt.turns:
                         msg = turn.content
                         msg.text = self.langprovider.get_text(
-                            msg.text, notify_callback=preparation_bar.update
-                        )
+                            [msg.text], notify_callback=preparation_bar.update
+                        )[0]
                         msg.lang = self.langprovider.target_lang
         lang = self.langprovider.target_lang
         preparation_bar.close()
         for seq, prompt in enumerate(prompts):
-            notes = (
-                {
-                    "pre_translation_prompt": garak.attempt.Conversation(
-                        [
-                            garak.attempt.Turn(
-                                "user",
-                                garak.attempt.Message(
-                                    self.prompts[seq], lang=self.lang
-                                ),
-                            )
-                        ]
-                    )
-                }
-                if lang != self.lang
-                else None
-            )
+            notes = None
+            if lang != self.lang:
+                pre_translation_prompt = copy.deepcopy(self.prompts[seq])
+                if isinstance(pre_translation_prompt, str):
+                    notes = {
+                        "pre_translation_prompt": garak.attempt.Conversation(
+                            [
+                                garak.attempt.Turn(
+                                    "user",
+                                    garak.attempt.Message(
+                                        pre_translation_prompt, lang=self.lang
+                                    ),
+                                )
+                            ]
+                        )
+                    }
+                elif isinstance(pre_translation_prompt, garak.attempt.Message):
+                    pre_translation_prompt.lang = self.lang
+                    notes = {
+                        "pre_translation_prompt": garak.attempt.Conversation(
+                            [pre_translation_prompt]
+                        )
+                    }
+                elif isinstance(pre_translation_prompt, garak.attempt.Message):
+                    for turn in pre_translation_prompt.turns:
+                        turn.context.lang = self.lang
+                    notes = {"pre_translation_prompt": pre_translation_prompt}
+
             attempts_todo.append(self._mint_attempt(prompt, seq, notes, lang))
 
         # buff hook
