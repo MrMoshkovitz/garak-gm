@@ -1,0 +1,212 @@
+garak LLM vulnerability scanner v0.13.2.pre1 ( https://github.com/NVIDIA/garak ) at 2025-10-29T00:12:55.112671
+[1m[93mprobes: [0mansiescape 🌟
+[1m[93mprobes: [0mansiescape.AnsiEscaped
+[1m[93mprobes: [0mansiescape.AnsiRaw
+[1m[93mprobes: [0mansiescape.AnsiRawTokenizerHF 💤
+[1m[93mprobes: [0matkgen 🌟
+[1m[93mprobes: [0matkgen.Tox
+[1m[93mprobes: [0maudio 🌟
+[1m[93mprobes: [0maudio.AudioAchillesHeel 💤
+[1m[93mprobes: [0mav_spam_scanning 🌟
+[1m[93mprobes: [0mav_spam_scanning.EICAR 💤
+[1m[93mprobes: [0mav_spam_scanning.GTUBE 💤
+[1m[93mprobes: [0mav_spam_scanning.GTphish 💤
+[1m[93mprobes: [0mcontinuation 🌟
+[1m[93mprobes: [0mcontinuation.ContinueSlursReclaimedSlurs
+[1m[93mprobes: [0mcontinuation.ContinueSlursReclaimedSlursFull 💤
+[1m[93mprobes: [0mdan 🌟
+[1m[93mprobes: [0mdan.Ablation_Dan_11_0
+[1m[93mprobes: [0mdan.AntiDAN 💤
+[1m[93mprobes: [0mdan.AutoDAN 💤
+[1m[93mprobes: [0mdan.AutoDANCached
+[1m[93mprobes: [0mdan.ChatGPT_Developer_Mode_RANTI 💤
+[1m[93mprobes: [0mdan.ChatGPT_Developer_Mode_v2 💤
+[1m[93mprobes: [0mdan.ChatGPT_Image_Markdown 💤
+[1m[93mprobes: [0mdan.DAN_Jailbreak 💤
+[1m[93mprobes: [0mdan.DUDE 💤
+[1m[93mprobes: [0mdan.DanInTheWild
+[1m[93mprobes: [0mdan.DanInTheWildFull 💤
+[1m[93mprobes: [0mdan.Dan_10_0 💤
+[1m[93mprobes: [0mdan.Dan_11_0 💤
+[1m[93mprobes: [0mdan.Dan_6_0 💤
+[1m[93mprobes: [0mdan.Dan_6_2 💤
+[1m[93mprobes: [0mdan.Dan_7_0 💤
+[1m[93mprobes: [0mdan.Dan_8_0 💤
+[1m[93mprobes: [0mdan.Dan_9_0 💤
+[1m[93mprobes: [0mdan.STAN 💤
+[1m[93mprobes: [0mdivergence 🌟
+[1m[93mprobes: [0mdivergence.Repeat
+[1m[93mprobes: [0mdivergence.RepeatExtended 💤
+[1m[93mprobes: [0mdivergence.RepeatedToken
+[1m[93mprobes: [0mdoctor 🌟
+[1m[93mprobes: [0mdoctor.Bypass 💤
+[1m[93mprobes: [0mdoctor.BypassLeet 💤
+[1m[93mprobes: [0mdoctor.Puppetry 💤
+[1m[93mprobes: [0mdonotanswer 🌟
+[1m[93mprobes: [0mdonotanswer.DiscriminationExclusionToxicityHatefulOffensive 💤
+[1m[93mprobes: [0mdonotanswer.HumanChatbox 💤
+[1m[93mprobes: [0mdonotanswer.InformationHazard 💤
+[1m[93mprobes: [0mdonotanswer.MaliciousUses 💤
+[1m[93mprobes: [0mdonotanswer.MisinformationHarms 💤
+[1m[93mprobes: [0mdra 🌟
+[1m[93mprobes: [0mdra.DRA
+[1m[93mprobes: [0mdra.DRAAdvanced 💤
+[1m[93mprobes: [0mencoding 🌟
+[1m[93mprobes: [0mencoding.InjectAscii85
+[1m[93mprobes: [0mencoding.InjectAtbash
+[1m[93mprobes: [0mencoding.InjectBase16
+[1m[93mprobes: [0mencoding.InjectBase2048
+[1m[93mprobes: [0mencoding.InjectBase32
+[1m[93mprobes: [0mencoding.InjectBase64
+[1m[93mprobes: [0mencoding.InjectBraille
+[1m[93mprobes: [0mencoding.InjectEcoji
+[1m[93mprobes: [0mencoding.InjectHex
+[1m[93mprobes: [0mencoding.InjectLeet 💤
+[1m[93mprobes: [0mencoding.InjectMime 💤
+[1m[93mprobes: [0mencoding.InjectMorse
+[1m[93mprobes: [0mencoding.InjectNato
+[1m[93mprobes: [0mencoding.InjectQP 💤
+[1m[93mprobes: [0mencoding.InjectROT13
+[1m[93mprobes: [0mencoding.InjectSneakyBits 💤
+[1m[93mprobes: [0mencoding.InjectUU
+[1m[93mprobes: [0mencoding.InjectUnicodeTagChars
+[1m[93mprobes: [0mencoding.InjectUnicodeVariantSelectors 💤
+[1m[93mprobes: [0mencoding.InjectZalgo
+[1m[93mprobes: [0mexploitation 🌟
+[1m[93mprobes: [0mexploitation.JinjaTemplatePythonInjection
+[1m[93mprobes: [0mexploitation.SQLInjectionEcho
+[1m[93mprobes: [0mexploitation.SQLInjectionSystem 💤
+[1m[93mprobes: [0mfileformats 🌟
+[1m[93mprobes: [0mfileformats.HF_Files 💤
+[1m[93mprobes: [0mglitch 🌟
+[1m[93mprobes: [0mglitch.Glitch 💤
+[1m[93mprobes: [0mglitch.GlitchFull 💤
+[1m[93mprobes: [0mgoodside 🌟
+[1m[93mprobes: [0mgoodside.Davidjl 💤
+[1m[93mprobes: [0mgoodside.Tag
+[1m[93mprobes: [0mgoodside.ThreatenJSON
+[1m[93mprobes: [0mgoodside.WhoIsRiley
+[1m[93mprobes: [0mgrandma 🌟
+[1m[93mprobes: [0mgrandma.Slurs
+[1m[93mprobes: [0mgrandma.Substances
+[1m[93mprobes: [0mgrandma.Win10
+[1m[93mprobes: [0mgrandma.Win11
+[1m[93mprobes: [0mlatentinjection 🌟
+[1m[93mprobes: [0mlatentinjection.LatentInjectionFactSnippetEiffel
+[1m[93mprobes: [0mlatentinjection.LatentInjectionFactSnippetEiffelFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentInjectionFactSnippetLegal
+[1m[93mprobes: [0mlatentinjection.LatentInjectionFactSnippetLegalFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentInjectionReport
+[1m[93mprobes: [0mlatentinjection.LatentInjectionReportFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentInjectionResume
+[1m[93mprobes: [0mlatentinjection.LatentInjectionResumeFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentInjectionTranslationEnFr
+[1m[93mprobes: [0mlatentinjection.LatentInjectionTranslationEnFrFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentInjectionTranslationEnZh
+[1m[93mprobes: [0mlatentinjection.LatentInjectionTranslationEnZhFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentJailbreak
+[1m[93mprobes: [0mlatentinjection.LatentJailbreakFull 💤
+[1m[93mprobes: [0mlatentinjection.LatentWhois
+[1m[93mprobes: [0mlatentinjection.LatentWhoisSnippet
+[1m[93mprobes: [0mlatentinjection.LatentWhoisSnippetFull 💤
+[1m[93mprobes: [0mleakreplay 🌟
+[1m[93mprobes: [0mleakreplay.GuardianCloze
+[1m[93mprobes: [0mleakreplay.GuardianClozeFull 💤
+[1m[93mprobes: [0mleakreplay.GuardianComplete
+[1m[93mprobes: [0mleakreplay.GuardianCompleteFull 💤
+[1m[93mprobes: [0mleakreplay.LiteratureCloze
+[1m[93mprobes: [0mleakreplay.LiteratureClozeFull 💤
+[1m[93mprobes: [0mleakreplay.LiteratureComplete
+[1m[93mprobes: [0mleakreplay.LiteratureCompleteFull 💤
+[1m[93mprobes: [0mleakreplay.NYTCloze
+[1m[93mprobes: [0mleakreplay.NYTClozeFull 💤
+[1m[93mprobes: [0mleakreplay.NYTComplete
+[1m[93mprobes: [0mleakreplay.NYTCompleteFull 💤
+[1m[93mprobes: [0mleakreplay.PotterCloze
+[1m[93mprobes: [0mleakreplay.PotterClozeFull 💤
+[1m[93mprobes: [0mleakreplay.PotterComplete
+[1m[93mprobes: [0mleakreplay.PotterCompleteFull 💤
+[1m[93mprobes: [0mlmrc 🌟
+[1m[93mprobes: [0mlmrc.Anthropomorphisation 💤
+[1m[93mprobes: [0mlmrc.Bullying
+[1m[93mprobes: [0mlmrc.Deadnaming
+[1m[93mprobes: [0mlmrc.Profanity 💤
+[1m[93mprobes: [0mlmrc.QuackMedicine
+[1m[93mprobes: [0mlmrc.SexualContent
+[1m[93mprobes: [0mlmrc.Sexualisation
+[1m[93mprobes: [0mlmrc.SlurUsage
+[1m[93mprobes: [0mmalwaregen 🌟
+[1m[93mprobes: [0mmalwaregen.Evasion
+[1m[93mprobes: [0mmalwaregen.Payload
+[1m[93mprobes: [0mmalwaregen.SubFunctions
+[1m[93mprobes: [0mmalwaregen.TopLevel
+[1m[93mprobes: [0mmisleading 🌟
+[1m[93mprobes: [0mmisleading.FalseAssertion
+[1m[93mprobes: [0mpackagehallucination 🌟
+[1m[93mprobes: [0mpackagehallucination.Dart
+[1m[93mprobes: [0mpackagehallucination.JavaScript
+[1m[93mprobes: [0mpackagehallucination.Perl
+[1m[93mprobes: [0mpackagehallucination.Python
+[1m[93mprobes: [0mpackagehallucination.RakuLand
+[1m[93mprobes: [0mpackagehallucination.Ruby
+[1m[93mprobes: [0mpackagehallucination.Rust
+[1m[93mprobes: [0mphrasing 🌟
+[1m[93mprobes: [0mphrasing.FutureTense
+[1m[93mprobes: [0mphrasing.FutureTenseFull 💤
+[1m[93mprobes: [0mphrasing.PastTense
+[1m[93mprobes: [0mphrasing.PastTenseFull 💤
+[1m[93mprobes: [0mpromptinject 🌟
+[1m[93mprobes: [0mpromptinject.HijackHateHumans
+[1m[93mprobes: [0mpromptinject.HijackHateHumansFull 💤
+[1m[93mprobes: [0mpromptinject.HijackKillHumans
+[1m[93mprobes: [0mpromptinject.HijackKillHumansFull 💤
+[1m[93mprobes: [0mpromptinject.HijackLongPrompt
+[1m[93mprobes: [0mpromptinject.HijackLongPromptFull 💤
+[1m[93mprobes: [0mrealtoxicityprompts 🌟
+[1m[93mprobes: [0mrealtoxicityprompts.RTPBlank
+[1m[93mprobes: [0mrealtoxicityprompts.RTPFlirtation 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPIdentity_Attack 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPInsult 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPProfanity 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPSevere_Toxicity 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPSexually_Explicit 💤
+[1m[93mprobes: [0mrealtoxicityprompts.RTPThreat 💤
+[1m[93mprobes: [0msata 🌟
+[1m[93mprobes: [0msata.MLM 💤
+[1m[93mprobes: [0msmuggling 🌟
+[1m[93mprobes: [0msmuggling.FunctionMasking 💤
+[1m[93mprobes: [0msmuggling.HypotheticalResponse 💤
+[1m[93mprobes: [0msnowball 🌟
+[1m[93mprobes: [0msnowball.GraphConnectivity
+[1m[93mprobes: [0msnowball.GraphConnectivityFull 💤
+[1m[93mprobes: [0msnowball.Primes 💤
+[1m[93mprobes: [0msnowball.PrimesFull 💤
+[1m[93mprobes: [0msnowball.Senators 💤
+[1m[93mprobes: [0msnowball.SenatorsFull 💤
+[1m[93mprobes: [0msuffix 🌟
+[1m[93mprobes: [0msuffix.BEAST 💤
+[1m[93mprobes: [0msuffix.GCG 💤
+[1m[93mprobes: [0msuffix.GCGCached
+[1m[93mprobes: [0mtap 🌟
+[1m[93mprobes: [0mtap.PAIR 💤
+[1m[93mprobes: [0mtap.TAP 💤
+[1m[93mprobes: [0mtap.TAPCached
+[1m[93mprobes: [0mtest 🌟
+[1m[93mprobes: [0mtest.Blank 💤
+[1m[93mprobes: [0mtest.Test 💤
+[1m[93mprobes: [0mtopic 🌟
+[1m[93mprobes: [0mtopic.WordnetAllowedWords 💤
+[1m[93mprobes: [0mtopic.WordnetBlockedWords 💤
+[1m[93mprobes: [0mtopic.WordnetControversial
+[1m[93mprobes: [0mvisual_jailbreak 🌟
+[1m[93mprobes: [0mvisual_jailbreak.FigStep 💤
+[1m[93mprobes: [0mvisual_jailbreak.FigStepFull 💤
+[1m[93mprobes: [0mweb_injection 🌟
+[1m[93mprobes: [0mweb_injection.ColabAIDataLeakage
+[1m[93mprobes: [0mweb_injection.MarkdownImageExfil
+[1m[93mprobes: [0mweb_injection.MarkdownURIImageExfilExtended
+[1m[93mprobes: [0mweb_injection.MarkdownURINonImageExfilExtended
+[1m[93mprobes: [0mweb_injection.MarkdownXSS
+[1m[93mprobes: [0mweb_injection.PlaygroundMarkdownExfil
+[1m[93mprobes: [0mweb_injection.StringAssemblyDataExfil
+[1m[93mprobes: [0mweb_injection.TaskXSS
